@@ -16,3 +16,5 @@ RUN docker-php-ext-install pdo pdo_pgsql zip
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN rm -rf /var/cache/apk/*
+
+CMD ["php-fpm"]
