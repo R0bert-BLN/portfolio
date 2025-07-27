@@ -26,6 +26,8 @@ security:
             entry_point: jwt
             refresh_jwt:
                 check_path: /api/token/refresh
+            logout:
+                path: api_token_invalidate
 
 
         dev:

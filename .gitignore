@@ -1,4 +1,4 @@
 .idea
 .env
-.env.dev
+api/.env.dev
 .env.test
