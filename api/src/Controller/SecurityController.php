@@ -17,9 +17,8 @@ final class SecurityController extends AbstractController
     public function logout(
         Request $request,
         EventDispatcherInterface $eventDispatcher,
-        TokenStorageInterface $tokenStorage
-    ): JsonResponse
-    {
+        TokenStorageInterface $tokenStorage,
+    ): JsonResponse {
         $eventDispatcher->dispatch(new LogoutEvent($request, $tokenStorage->getToken()));
 
         return $this->json([
