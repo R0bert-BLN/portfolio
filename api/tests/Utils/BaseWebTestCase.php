@@ -2,12 +2,13 @@
 
 namespace App\Tests\Utils;
 
+use ReflectionException as ReflectionExceptionAlias;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseWebTestCase extends WebTestCase
 {
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionExceptionAlias
      */
     protected function setProperty(object $object, string $property, mixed $value): void
     {

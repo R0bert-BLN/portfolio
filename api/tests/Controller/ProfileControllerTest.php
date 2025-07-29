@@ -66,18 +66,14 @@ class ProfileControllerTest extends BaseWebTestCase
             json_encode($requestBody)
         );
 
-        $responseBody = json_decode($client->getResponse()->getContent(), true);
-
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testEditProfileReturnsStatus400WhenInvalidJson(): void
     {
         $client = static::createClient();
-        $repository = static::getContainer()->get(ProfileRepository::class);
 
         $accessToken = $this->loginAndGetToken($client);
-        $profileId = 2;
 
         $requestBody = [
             'first_na' => 'Rob',
