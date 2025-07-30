@@ -2,7 +2,9 @@
 
 namespace App\Dto;
 
-class ErrorResponseDto implements DtoInterface, \JsonSerializable
+use OpenApi\Attributes as OA;
+
+class ErrorResponseDto implements \JsonSerializable
 {
     public function __construct(
         private readonly string $title,
@@ -10,6 +12,7 @@ class ErrorResponseDto implements DtoInterface, \JsonSerializable
         private readonly string $message,
 
         private readonly int $statusCode,
+
         private ?array $validationErrors = null)
     {
     }

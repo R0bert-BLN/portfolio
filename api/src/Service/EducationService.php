@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Dto\EducationRequestDto;
 use App\Dto\EducationResponseDto;
+use App\Entity\Education;
+use App\Exception\ResourceAlreadyExistsException;
 use App\Exception\ResourceNotFoundException;
 use App\Mapper\EducationMapper;
 use App\Repository\EducationRepository;
@@ -19,6 +21,10 @@ readonly class EducationService
 
     public function createEducation(EducationRequestDto $educationRequestDto): EducationResponseDto
     {
+        if ($this->educationRepository->findOneBy(['institutionName' => $educationRequestDto->getInstitutionName()])) {
+            throw new ResourceAlreadyExistsException('Education already exists');
+        }
+
         $education = $this->educationMapper->dtoToEntity($educationRequestDto);
 
         $this->entityManager->persist($education);
@@ -37,6 +43,14 @@ readonly class EducationService
 
         return $this->educationMapper->entityToDto($education);
     }
+
+    public function getAllEducations(): array
+    {
+        $educations = $this->educationRepository->findAll();
+
+        return array_map(fn (Education $education) => $this->educationMapper->entityToDto($education), $educations);
+    }
+
 
     public function deleteEducation(int $getId): void
     {

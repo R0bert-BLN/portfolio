@@ -2,9 +2,10 @@
 
 namespace App\Dto;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-readonly class ProfileRequestDto implements DtoInterface
+readonly class ProfileRequestDto
 {
     public function __construct(
         #[SerializedName('first_name')]

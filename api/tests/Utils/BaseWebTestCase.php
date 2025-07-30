@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseWebTestCase extends WebTestCase
 {
+    private const EMAIL = 'your_email@test.com';
+    private const PASSWORD = 'your_test_password';
+
     /**
      * @throws ReflectionExceptionAlias
      */
@@ -25,8 +28,8 @@ class BaseWebTestCase extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([
-                'username' => 'robybalan04@gmail.com',
-                'password' => 'R0bertBalan@2004',
+                'username' => self::EMAIL,
+                'password' => self::PASSWORD,
             ])
         );
 

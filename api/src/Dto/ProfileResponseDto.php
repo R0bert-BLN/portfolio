@@ -2,9 +2,11 @@
 
 namespace App\Dto;
 
+use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-readonly class ProfileResponseDto implements DtoInterface
+#[OA\Schema(schema: 'ProfileResponse')]
+readonly class ProfileResponseDto
 {
     public function __construct(
         #[SerializedName('id')]

@@ -8,7 +8,7 @@ use App\Entity\Education;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\EducationRepository;
 
-readonly class EducationMapper implements MapperInterface
+readonly class EducationMapper
 {
     public function __construct(private EducationRepository $educationRepository)
     {

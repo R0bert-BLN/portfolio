@@ -5,7 +5,7 @@ namespace App\Dto;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class EducationRequestDto implements DtoInterface
+readonly class EducationRequestDto
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Institution name is required', groups: ['education:create'])]

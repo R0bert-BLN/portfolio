@@ -30,6 +30,14 @@ final class EducationController extends AbstractController
         return $this->json($responseDto, Response::HTTP_OK);
     }
 
+    #[Route('/api/education', name: 'app_get_all_educations', methods: ['GET'])]
+    public function getAllEducations(EducationService $educationService): JsonResponse
+    {
+        $responseDto = $educationService->getAllEducations();
+
+        return $this->json($responseDto, Response::HTTP_OK);
+    }
+
     #[Route('/api/admin/education/{id}', name: 'app_delete_education', methods: ['DELETE'])]
     public function deleteEducation(int $id, EducationService $educationService): JsonResponse
     {

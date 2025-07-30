@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactHistoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ContactHistory
 {
     #[ORM\Id]
@@ -25,6 +26,12 @@ class ContactHistory
 
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {

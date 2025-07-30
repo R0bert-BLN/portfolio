@@ -4,7 +4,7 @@ namespace App\Dto;
 
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-readonly class EducationResponseDto implements DtoInterface
+readonly class EducationResponseDto
 {
     public function __construct(
         #[SerializedName('id')]

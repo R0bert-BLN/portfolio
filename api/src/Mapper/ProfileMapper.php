@@ -8,7 +8,7 @@ use App\Entity\Profile;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\ProfileRepository;
 
-readonly class ProfileMapper implements MapperInterface
+readonly class ProfileMapper
 {
     public function __construct(
         private ProfileRepository $profileRepository,
