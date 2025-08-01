@@ -13,7 +13,7 @@ enum SkillType: string
         return [
             self::LANGUAGE->value,
             self::FRAMEWORK->value,
-            self::TOOL->value
+            self::TOOL->value,
         ];
     }
 }

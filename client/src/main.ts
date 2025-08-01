@@ -4,7 +4,7 @@ import { createNotivue } from 'notivue'
 
 import App from './App.vue'
 import router from './router'
-import vuetify from "@/plugins/vuetify.ts";
+import vuetify from '@/plugins/vuetify.ts'
 import './assets/main.css'
 
 const app = createApp(App)

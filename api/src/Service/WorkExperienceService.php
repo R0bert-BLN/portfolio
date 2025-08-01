@@ -15,9 +15,8 @@ readonly class WorkExperienceService
     public function __construct(
         private WorkExperienceRepository $workExperienceRepository,
         private EntityManagerInterface $entityManager,
-        private WorkExperienceMapper $workExperienceMapper
-    )
-    {
+        private WorkExperienceMapper $workExperienceMapper,
+    ) {
     }
 
     public function createWorkExperience(WorkExperienceRequestDto $workExperienceDto): WorkExperienceResponseDto
@@ -53,8 +52,7 @@ readonly class WorkExperienceService
     {
         $workExperiences = $this->workExperienceRepository->findAll();
 
-        return array_map(fn(WorkExperience $workExperience) =>
-            $this->workExperienceMapper->entityToDto($workExperience), $workExperiences);
+        return array_map(fn (WorkExperience $workExperience) => $this->workExperienceMapper->entityToDto($workExperience), $workExperiences);
     }
 
     public function getWorkExperience(int $id): WorkExperienceResponseDto

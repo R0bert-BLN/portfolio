@@ -47,7 +47,7 @@ class ProjectControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $projectId = 2;
 
-        $client->request('GET', '/api/project/' . $projectId);
+        $client->request('GET', '/api/project/'.$projectId);
 
         $responseBody = json_decode($client->getResponse()->getContent(), true);
 

@@ -132,7 +132,6 @@ class EducationControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $accessToken = $this->loginAndGetToken($client);
 
-
         $requestBody = [
             'institution_name' => 'New Institution Name',
             'specialisation' => 'New Specialisation',

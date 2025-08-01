@@ -14,8 +14,9 @@ class ContactHistoryService
     public function __construct(
         private ContactHistoryRepository $contactHistoryRepository,
         private EntityManagerInterface $entityManager,
-        private ContactHistoryMapper $contactHistoryMapper
-    ) {}
+        private ContactHistoryMapper $contactHistoryMapper,
+    ) {
+    }
 
     public function createContactHistory(ContactHistoryRequestDto $contactHistoryDto): ContactHistoryResponseDto
     {

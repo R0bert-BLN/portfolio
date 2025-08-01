@@ -11,7 +11,6 @@ use App\Tests\Utils\TestDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class ContactHistoryServiceTest extends BaseTestCase
 {
@@ -59,7 +58,7 @@ class ContactHistoryServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testGetContactHistoryWhenSuccess(): void
     {
@@ -80,7 +79,7 @@ class ContactHistoryServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testDeleteContactHistoryWhenSuccess(): void
     {

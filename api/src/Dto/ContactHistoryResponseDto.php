@@ -20,9 +20,8 @@ readonly class ContactHistoryResponseDto
         private string $message,
 
         #[SerializedName('created_at')]
-        private \DateTime $createdAt
-    )
-    {
+        private \DateTime $createdAt,
+    ) {
     }
 
     public function getId(): int

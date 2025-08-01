@@ -20,8 +20,7 @@ readonly class ContactHistoryRequestDto
         #[SerializedName('message')]
         #[Assert\NotBlank(message: 'Message is required')]
         private string $message,
-    )
-    {
+    ) {
     }
 
     public function getName(): string

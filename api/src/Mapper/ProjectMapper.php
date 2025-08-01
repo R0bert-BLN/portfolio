@@ -9,8 +9,6 @@ use App\Entity\Skill;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\ProjectRepository;
 use App\Repository\SkillRepository;
-use App\Service\ProjectService;
-use App\Service\SkillService;
 
 readonly class ProjectMapper
 {

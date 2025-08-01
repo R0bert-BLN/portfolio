@@ -8,7 +8,6 @@ use App\Tests\Utils\BaseTestCase;
 use App\Tests\Utils\TestDataProvider;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class EducationMapperTest extends BaseTestCase
 {
@@ -27,7 +26,7 @@ class EducationMapperTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testEntityToDtoMapsSuccessfully(): void
     {
@@ -45,7 +44,7 @@ class EducationMapperTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testDtoToEntityMapsSuccessfully(): void
     {

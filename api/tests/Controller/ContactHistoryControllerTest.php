@@ -42,7 +42,7 @@ class ContactHistoryControllerTest extends BaseWebTestCase
             '/api/admin/contact-history',
             [],
             [],
-            ['HTTP_Authorization' => 'Bearer ' . $token]
+            ['HTTP_Authorization' => 'Bearer '.$token]
         );
 
         $responseBody = json_decode($client->getResponse()->getContent(), true);
@@ -62,7 +62,7 @@ class ContactHistoryControllerTest extends BaseWebTestCase
             '/api/admin/contact-history/'.$contactHistoryId,
             [],
             [],
-            ['HTTP_Authorization' => 'Bearer ' . $token]
+            ['HTTP_Authorization' => 'Bearer '.$token]
         );
 
         $responseBody = json_decode($client->getResponse()->getContent(), true);
@@ -86,7 +86,7 @@ class ContactHistoryControllerTest extends BaseWebTestCase
             '/api/admin/contact-history/'.$contactHistoryId,
             [],
             [],
-            ['HTTP_Authorization' => 'Bearer ' . $token]
+            ['HTTP_Authorization' => 'Bearer '.$token]
         );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);

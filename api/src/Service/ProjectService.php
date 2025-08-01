@@ -16,9 +16,8 @@ readonly class ProjectService
     public function __construct(
         private ProjectRepository $projectRepository,
         private EntityManagerInterface $entityManager,
-        private ProjectMapper $projectMapper
-    )
-    {
+        private ProjectMapper $projectMapper,
+    ) {
     }
 
     public function createProject(ProjectRequestDto $requestDto): ProjectResponseDto

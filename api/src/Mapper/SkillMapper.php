@@ -11,9 +11,8 @@ use App\Repository\SkillRepository;
 readonly class SkillMapper
 {
     public function __construct(
-        private SkillRepository $skillRepository
-    )
-    {
+        private SkillRepository $skillRepository,
+    ) {
     }
 
     public function dtoToEntity(SkillRequestDto $projectRequestDto, ?int $id = null): Skill
@@ -39,7 +38,7 @@ readonly class SkillMapper
     {
         return new SkillResponseDto(
             id: $skill->getId(),
-            name:  $skill->getName(),
+            name: $skill->getName(),
             type: $skill->getType(),
             displayOrder: $skill->getDisplayOrder()
         );
@@ -59,5 +58,4 @@ readonly class SkillMapper
 
         return $skill;
     }
-
 }

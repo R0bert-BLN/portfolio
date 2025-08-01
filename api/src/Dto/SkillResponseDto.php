@@ -18,8 +18,9 @@ class SkillResponseDto
         public SkillType $type,
 
         #[SerializedName('display_order')]
-        public ?int $displayOrder
-    ) {}
+        public ?int $displayOrder,
+    ) {
+    }
 
     public function getId(): int
     {

@@ -16,9 +16,8 @@ readonly class SkillService
     public function __construct(
         private SkillRepository $skillRepository,
         private EntityManagerInterface $entityManager,
-        private SkillMapper $skillMapper
-    )
-    {
+        private SkillMapper $skillMapper,
+    ) {
     }
 
     public function createSkill(SkillRequestDto $requestDto): SkillResponseDto

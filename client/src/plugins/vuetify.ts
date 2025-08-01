@@ -10,7 +10,7 @@ const myTheme = {
     colors: {
         background: '#141313',
         surface: '#141313',
-        primary: '#4695e5',
+        primary: '#2475c8',
         secondary: '#141313',
         error: '#ff5252',
         info: '#2196F3',
@@ -19,7 +19,7 @@ const myTheme = {
 
         'on-background': '#ced0d1',
         'on-surface': '#ced0d1',
-    }
+    },
 }
 
 const vuetify = createVuetify({
@@ -28,9 +28,9 @@ const vuetify = createVuetify({
     theme: {
         defaultTheme: 'myTheme',
         themes: {
-            myTheme
-        }
-    }
+            myTheme,
+        },
+    },
 })
 
 export default vuetify

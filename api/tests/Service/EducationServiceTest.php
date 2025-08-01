@@ -11,7 +11,6 @@ use App\Tests\Utils\TestDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class EducationServiceTest extends BaseTestCase
 {
@@ -59,7 +58,7 @@ class EducationServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testGetEducationsEducationsWhenSuccessful(): void
     {
@@ -81,7 +80,7 @@ class EducationServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testDeleteEducationDeletesEducationWhenSuccessful(): void
     {
@@ -103,7 +102,7 @@ class EducationServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testUpdateEducationUpdatesEducationWhenSuccessful(): void
     {

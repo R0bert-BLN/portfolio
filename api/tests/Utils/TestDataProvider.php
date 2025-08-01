@@ -14,7 +14,6 @@ use App\Entity\Project;
 use App\Entity\Skill;
 use App\Entity\WorkExperience;
 use App\Enum\SkillType;
-use ReflectionException;
 
 readonly class TestDataProvider
 {
@@ -35,7 +34,7 @@ readonly class TestDataProvider
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function educationEntity(): Education
     {
@@ -86,7 +85,7 @@ readonly class TestDataProvider
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function projectEntity(): Project
     {
@@ -112,7 +111,7 @@ readonly class TestDataProvider
             'picture_url' => 'https://example.com/fake2.png',
             'github_link' => 'https://github.com/fake2/project',
             'demo_link' => null,
-            'display_order' => null
+            'display_order' => null,
         ];
     }
 
@@ -121,12 +120,12 @@ readonly class TestDataProvider
         return [
             'name' => 'Fake Skill',
             'type' => 'language',
-            'display_order' => null
+            'display_order' => null,
         ];
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function skillEntity(): Skill
     {
@@ -174,7 +173,7 @@ readonly class TestDataProvider
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function workExperienceEntity(): WorkExperience
     {
@@ -199,7 +198,7 @@ readonly class TestDataProvider
             'company' => 'Fake Company',
             'start_date' => '2022-01-01',
             'end_date' => '2022-12-31',
-            'display_order' => null
+            'display_order' => null,
         ];
     }
 
@@ -217,12 +216,12 @@ readonly class TestDataProvider
         return [
             'name' => 'Fake Name',
             'email' => 'fake@email.com',
-            'message' => 'Fake Message'
+            'message' => 'Fake Message',
         ];
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function contactHistoryEntity(): ContactHistory
     {
@@ -238,7 +237,7 @@ readonly class TestDataProvider
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private static function setProperty(object $object, string $property, mixed $value): void
     {

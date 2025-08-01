@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WorkExperienceControllerTest extends BaseWebTestCase
 {
-
     public function testCreateWorkExperienceReturnsWorkExperienceAndStatus201WhenSuccessful(): void
     {
         $client = self::createClient();
@@ -20,7 +19,7 @@ class WorkExperienceControllerTest extends BaseWebTestCase
             '/api/admin/work-experience',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json', 'HTTP_Authorization' => 'Bearer ' . $token],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_Authorization' => 'Bearer '.$token],
             json_encode($requestBody)
         );
 
@@ -82,7 +81,7 @@ class WorkExperienceControllerTest extends BaseWebTestCase
             '/api/admin/work-experience/'.$id,
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json', 'HTTP_Authorization' => 'Bearer ' . $token],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_Authorization' => 'Bearer '.$token],
             json_encode($requestBody)
         );
 
@@ -103,7 +102,7 @@ class WorkExperienceControllerTest extends BaseWebTestCase
         $token = $this->loginAndGetToken($client);
         $id = 2;
 
-        $client->request('DELETE', '/api/admin/work-experience/'.$id, [], [], ['HTTP_Authorization' => 'Bearer ' . $token]);
+        $client->request('DELETE', '/api/admin/work-experience/'.$id, [], [], ['HTTP_Authorization' => 'Bearer '.$token]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
     }

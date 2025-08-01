@@ -30,9 +30,8 @@ readonly class WorkExperienceRequestDto
 
         #[Assert\PositiveOrZero(message: 'Display order must be positive or zero')]
         #[SerializedName('display_order')]
-        private ?int $displayOrder
-    )
-    {
+        private ?int $displayOrder,
+    ) {
     }
 
     public function getJobTitle(): ?string

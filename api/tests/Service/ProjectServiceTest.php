@@ -80,7 +80,6 @@ class ProjectServiceTest extends BaseTestCase
         $this->assertCount(1, $result->getSkills());
     }
 
-
     /**
      * @throws ReflectionExceptionAlias
      */

@@ -11,9 +11,8 @@ use App\Repository\WorkExperienceRepository;
 readonly class WorkExperienceMapper
 {
     public function __construct(
-        private WorkExperienceRepository $workExperienceRepository
-    )
-    {
+        private WorkExperienceRepository $workExperienceRepository,
+    ) {
     }
 
     public function dtoToEntity(WorkExperienceRequestDto $requestDto, ?int $id = null): WorkExperience

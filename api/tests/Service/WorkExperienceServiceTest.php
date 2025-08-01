@@ -2,20 +2,15 @@
 
 namespace App\Tests\Service;
 
-use App\Entity\Education;
 use App\Entity\WorkExperience;
-use App\Mapper\EducationMapper;
 use App\Mapper\WorkExperienceMapper;
-use App\Repository\EducationRepository;
 use App\Repository\WorkExperienceRepository;
-use App\Service\EducationService;
 use App\Service\WorkExperienceService;
 use App\Tests\Utils\BaseTestCase;
 use App\Tests\Utils\TestDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class WorkExperienceServiceTest extends BaseTestCase
 {
@@ -64,7 +59,7 @@ class WorkExperienceServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testGetWorkExperienceReturnsWorkExperienceWhenSuccessful(): void
     {
@@ -87,7 +82,7 @@ class WorkExperienceServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testDeleteWorkExperienceDeletesWorkExperienceWhenSuccessful(): void
     {
@@ -109,7 +104,7 @@ class WorkExperienceServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testUpdateWorkExperienceUpdatesWorkExperienceWhenSuccessful(): void
     {

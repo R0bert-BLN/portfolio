@@ -8,7 +8,6 @@ use App\Tests\Utils\BaseTestCase;
 use App\Tests\Utils\TestDataProvider;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class SkillMapperTest extends BaseTestCase
 {
@@ -26,9 +25,8 @@ class SkillMapperTest extends BaseTestCase
         $this->skillMapper = new SkillMapper($this->skillRepositoryMock);
     }
 
-
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testDtoToEntityConversionWhenSuccessfully()
     {
@@ -48,9 +46,8 @@ class SkillMapperTest extends BaseTestCase
         $this->assertSame($skillDto->getDisplayOrder(), $result->getDisplayOrder());
     }
 
-
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function testEntityToDtoConversionWhenSuccessfully()
     {

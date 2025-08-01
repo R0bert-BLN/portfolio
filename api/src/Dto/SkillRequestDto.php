@@ -3,7 +3,6 @@
 namespace App\Dto;
 
 use App\Enum\SkillType;
-use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,8 +19,9 @@ readonly class SkillRequestDto
 
         #[SerializedName('display_order')]
         #[Assert\Type(type: 'int', message: 'Display order must be an integer', groups: ['skill:create'])]
-        public ?int $displayOrder = null
-    ) {}
+        public ?int $displayOrder = null,
+    ) {
+    }
 
     public function getName(): string
     {

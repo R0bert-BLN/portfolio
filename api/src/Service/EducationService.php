@@ -16,8 +16,9 @@ readonly class EducationService
     public function __construct(
         private EducationRepository $educationRepository,
         private EntityManagerInterface $entityManager,
-        private EducationMapper $educationMapper
-    ) {}
+        private EducationMapper $educationMapper,
+    ) {
+    }
 
     public function createEducation(EducationRequestDto $educationRequestDto): EducationResponseDto
     {
@@ -50,7 +51,6 @@ readonly class EducationService
 
         return array_map(fn (Education $education) => $this->educationMapper->entityToDto($education), $educations);
     }
-
 
     public function deleteEducation(int $getId): void
     {

@@ -26,7 +26,7 @@ readonly class WorkExperienceResponseDto
         private ?\DateTime $endDate,
 
         #[SerializedName('display_order')]
-        private ?int   $displayOrder)
+        private ?int $displayOrder)
     {
     }
 
