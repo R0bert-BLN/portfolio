@@ -2,10 +2,9 @@
 
 namespace App\Dto;
 
-use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-#[OA\Schema(schema: 'ProfileResponse')]
 readonly class ProfileResponseDto
 {
     public function __construct(
@@ -25,13 +24,13 @@ readonly class ProfileResponseDto
         private string $description,
 
         #[SerializedName('cv_url')]
-        private string $cvUrl,
+        private ?string  $cvUrl,
 
         #[SerializedName('github_link')]
-        private string $githubLink,
+        private string  $githubLink,
 
         #[SerializedName('linkedin_link')]
-        private string $linkedinLink,
+        private string  $linkedinLink,
 
         #[SerializedName('picture_url')]
         private ?string $pictureUrl,
@@ -63,7 +62,7 @@ readonly class ProfileResponseDto
         return $this->description;
     }
 
-    public function getCvUrl(): string
+    public function getCvUrl(): ?string
     {
         return $this->cvUrl;
     }

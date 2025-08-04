@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 readonly class ProfileService
 {
-    private const PROFILE_ID = 2;
+    private const PROFILE_ID = 4;
 
     public function __construct(
         private ProfileRepository $profileRepository,

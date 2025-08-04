@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Profile } from "@/types/types.ts";
-import {reactive, ref} from "vue";
+import {reactive, ref, watch} from "vue";
 
 interface Props {
     profile: Profile
@@ -8,22 +8,62 @@ interface Props {
 
 interface Emits {
     (e: 'close'): void,
-    (e: 'update', data: Partial<Profile>): void
+    (e: 'update', data: FormData): void
 }
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
 
-const profile = reactive<Partial<Profile>>(JSON.parse(JSON.stringify(props.profile)))
-const resume = ref<Array<File>>([]);
+const localProfile = reactive<Partial<Profile>>({})
+
+const resumeFile = ref<File | null>(null);
+const pictureFile = ref<File | null>(null);
 
 const handleCancel = () => {
     emits('close');
 }
 
 const handleUpdate = () => {
-    emits('update', JSON.parse(JSON.stringify(profile)))
+   const formData = new FormData();
+
+   if (resumeFile.value) {
+       formData.append('cv', resumeFile.value);
+   }
+
+   if (pictureFile.value) {
+       formData.append('picture', pictureFile.value);
+   }
+
+   if (localProfile.description) {
+       formData.append('description', localProfile.description);
+   }
+
+   if (localProfile.first_name) {
+       formData.append('first_name', localProfile.first_name);
+   }
+
+   if (localProfile.last_name) {
+       formData.append('last_name', localProfile.last_name);
+   }
+
+   if (localProfile.job_title) {
+       formData.append('job_title', localProfile.job_title);
+   }
+
+   if (localProfile.github_link) {
+       formData.append('github_link', localProfile.github_link);
+   }
+
+   if (localProfile.linkedin_link) {
+       formData.append('linkedin_link', localProfile.linkedin_link);
+   }
+
+   emits('update', formData);
 }
+
+watch(() => props.profile, (newProfile) => {
+    Object.assign(localProfile, newProfile);
+}, {immediate: true, deep: true})
 </script>
 
 <template>
@@ -37,7 +77,7 @@ const handleUpdate = () => {
                 <v-row>
                     <v-col cols="12" lg="6">
                         <v-text-field
-                            v-model="profile.first_name"
+                            v-model="localProfile.first_name"
                             label="First Name"
                             persistent-placeholder
                             variant="underlined"
@@ -48,7 +88,7 @@ const handleUpdate = () => {
 
                     <v-col cols="12" lg="6">
                         <v-text-field
-                            v-model="profile.last_name"
+                            v-model="localProfile.last_name"
                             label="Last Name"
                             persistent-placeholder
                             variant="underlined"
@@ -59,7 +99,7 @@ const handleUpdate = () => {
                 </v-row>
 
                 <v-text-field
-                    v-model="profile.job_title"
+                    v-model="localProfile.job_title"
                     label="Job Title"
                     persistent-placeholder
                     variant="underlined"
@@ -70,7 +110,7 @@ const handleUpdate = () => {
                 <v-row>
                     <v-col cols="12" lg="6">
                         <v-text-field
-                            v-model="profile.github_link"
+                            v-model="localProfile.github_link"
                             label="Github Link"
                             persistent-placeholder
                             variant="underlined"
@@ -81,7 +121,7 @@ const handleUpdate = () => {
 
                     <v-col cols="12" lg="6">
                         <v-text-field
-                            v-model="profile.linkedin_link"
+                            v-model="localProfile.linkedin_link"
                             label="Linkedin Link"
                             persistent-placeholder
                             variant="underlined"
@@ -92,7 +132,7 @@ const handleUpdate = () => {
                 </v-row>
 
                 <v-file-input
-                    v-model="resume"
+                    v-model="resumeFile"
                     label="Resume"
                     active
                     variant="underlined"
@@ -101,8 +141,18 @@ const handleUpdate = () => {
                     icon-color="primary"
                 />
 
+                <v-file-input
+                    v-model="pictureFile"
+                    label="Profile Picture"
+                    active
+                    variant="underlined"
+                    color="primary"
+                    class="login-input mt-5"
+                    icon-color="primary"
+                />
+
                 <v-textarea
-                    v-model="profile.description"
+                    v-model="localProfile.description"
                     label="Description"
                     persistent-placeholder
                     variant="underlined"

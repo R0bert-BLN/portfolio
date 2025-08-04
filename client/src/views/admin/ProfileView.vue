@@ -13,15 +13,34 @@ const storeRefs = storeToRefs(profileStore)
 
 const profile: Ref<Partial<Profile>> = storeRefs.profile
 const showDialog = ref<boolean>(false)
+const snackbarShow = ref<boolean>(false)
+const snackbarMessage = ref<string>('')
+const snackbarColor = ref<string>('')
+const snackbarTimeout = ref<number>(2000)
 
 const handleClose = () => {
     showDialog.value =false;
 }
 
-const handleUpdate = () => {
-    // TODO: update profile
-
+const handleUpdate = async (form: FormData) => {
     handleClose();
+    loader.show();
+
+    try {
+        await profileStore.editProfile(form);
+
+        snackbarShow.value = true;
+        snackbarMessage.value = 'Profile updated successfully';
+        snackbarColor.value = 'success';
+    } catch (error) {
+        console.error(error);
+
+        snackbarShow.value = true;
+        snackbarMessage.value = 'Failed to update profile';
+        snackbarColor.value = 'error';
+    } finally {
+        loader.hide();
+    }
 }
 
 const fetchProfile = async () => {
@@ -43,6 +62,14 @@ onMounted(async () => {
 
 <template>
     <div class="mx-16 mt-16 pt-8 px-5 pb-16">
+        <v-snackbar class="mt-10" v-model="snackbarShow" :color="snackbarColor" :timeout="snackbarTimeout" location="top">
+            <span class="font-semibold text-[18px]">{{ snackbarMessage }}</span>
+
+            <template v-slot:actions>
+                <v-btn color="white" icon="mdi-close" variant="text" @click="snackbarShow = false"></v-btn>
+            </template>
+        </v-snackbar>
+
         <v-card flat color="transparent">
             <v-card-title>
                 <PageHeader>
@@ -87,8 +114,10 @@ onMounted(async () => {
             <v-card-text v-else class="mt-16 pt-10">
                 <div class="flex flex-col gap-10">
                     <div class="flex justify-center gap-10">
-                        <v-avatar color="primary" size="150" variant="outlined">
-                            <v-icon size="190" icon="mdi-account-outline" color="primary"></v-icon>
+                        <v-avatar color="primary" size="150" variant="text" >
+                            <v-img v-if="profile.picture_url" :src="profile.picture_url"></v-img>
+
+                            <v-icon v-else size="150" icon="mdi-account-circle"></v-icon>
                         </v-avatar>
 
                         <div>
@@ -131,7 +160,7 @@ onMounted(async () => {
                     </div>
 
                     <div class="flex justify-center mt-10">
-                        <v-btn color="primary" variant="outlined" size="large" rounded="lg">View Resume</v-btn>
+                        <v-btn :href="profile.cv_url" target="_blank" color="primary" variant="outlined" size="large" rounded="lg">View Resume</v-btn>
                     </div>
                 </div>
             </v-card-text>

@@ -5,7 +5,6 @@ namespace App\Dto;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-#[OA\Schema(schema: 'ProjectResponse')]
 readonly class ProjectResponseDto
 {
     public function __construct(

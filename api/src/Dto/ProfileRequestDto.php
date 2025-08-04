@@ -2,6 +2,7 @@
 
 namespace App\Dto;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
 readonly class ProfileRequestDto
@@ -19,8 +20,8 @@ readonly class ProfileRequestDto
         #[SerializedName('description')]
         private ?string $description = null,
 
-        #[SerializedName('cv_url')]
-        private ?string $cvUrl = null,
+        #[SerializedName('cv')]
+        private ?UploadedFile $cv = null,
 
         #[SerializedName('github_link')]
         private ?string $githubLink = null,
@@ -28,8 +29,8 @@ readonly class ProfileRequestDto
         #[SerializedName('linkedin_link')]
         private ?string $linkedinLink = null,
 
-        #[SerializedName('picture_url')]
-        private ?string $pictureUrl = null,
+        #[SerializedName('picture')]
+        private ?UploadedFile $picture = null,
     ) {
     }
 
@@ -43,9 +44,9 @@ readonly class ProfileRequestDto
         return $this->lastName;
     }
 
-    public function getCvUrl(): ?string
+    public function getCv(): ?UploadedFile
     {
-        return $this->cvUrl;
+        return $this->cv;
     }
 
     public function getDescription(): ?string
@@ -68,8 +69,8 @@ readonly class ProfileRequestDto
         return $this->linkedinLink;
     }
 
-    public function getPictureUrl(): ?string
+    public function getPicture(): ?UploadedFile
     {
-        return $this->pictureUrl;
+        return $this->picture;
     }
 }

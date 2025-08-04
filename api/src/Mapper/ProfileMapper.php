@@ -6,12 +6,17 @@ use App\Dto\ProfileRequestDto;
 use App\Dto\ProfileResponseDto;
 use App\Entity\Profile;
 use App\Exception\ResourceNotFoundException;
+use App\Exception\SupabaseUploadException;
 use App\Repository\ProfileRepository;
+use App\Service\DropboxService;
+use App\Service\SupabaseService;
+use Kunnu\Dropbox\Exceptions\DropboxClientException;
 
 readonly class ProfileMapper
 {
     public function __construct(
         private ProfileRepository $profileRepository,
+        private SupabaseService $supabaseService,
     ) {
     }
 
@@ -35,12 +40,28 @@ readonly class ProfileMapper
             $profileEntity->setDescription($profileRequestDto->getDescription());
         }
 
-        if (null !== $profileRequestDto->getCvUrl()) {
-            $profileEntity->setCvUrl($profileRequestDto->getCvUrl());
+        if (null !== $profileRequestDto->getCv()) {
+            $path = "documents/{$profileEntity->getFirstName()} {$profileEntity->getLastName()}.{$profileRequestDto->getCv()->guessExtension()}";
+
+            try {
+                $supabasePath =$this->supabaseService->uploadFile($profileRequestDto->getCv(), $path);
+            } catch (SupabaseUploadException $e) {
+                throw new SupabaseUploadException('Error uploading file to Supabase: ' . $e->getMessage());
+            }
+
+            $profileEntity->setCvUrl($supabasePath);
         }
 
-        if (null !== $profileRequestDto->getPictureUrl()) {
-            $profileEntity->setPictureUrl($profileRequestDto->getPictureUrl());
+        if (null !== $profileRequestDto->getPicture()) {
+            $path = "pictures/{$profileEntity->getId()}.{$profileRequestDto->getPicture()->guessExtension()}";
+
+            try {
+                $supabasePath = $this->supabaseService->uploadFile($profileRequestDto->getPicture(), $path);
+            } catch (SupabaseUploadException $e) {
+                throw new SupabaseUploadException('Error uploading file to Supabase: ' . $e->getMessage());
+            }
+
+            $profileEntity->setPictureUrl($supabasePath);
         }
 
         if (null !== $profileRequestDto->getGithubLink()) {
@@ -57,15 +78,15 @@ readonly class ProfileMapper
     public function toDto(Profile $profileEntity): ProfileResponseDto
     {
         return new ProfileResponseDto(
-            $profileEntity->getId(),
-            $profileEntity->getFirstName(),
-            $profileEntity->getLastName(),
-            $profileEntity->getJobTitle(),
-            $profileEntity->getDescription(),
-            $profileEntity->getCvUrl(),
-            $profileEntity->getGithubLink(),
-            $profileEntity->getLinkedinLink(),
-            $profileEntity->getPictureUrl(),
+            id: $profileEntity->getId(),
+            firstName: $profileEntity->getFirstName(),
+            lastName: $profileEntity->getLastName(),
+            jobTitle: $profileEntity->getJobTitle(),
+            description: $profileEntity->getDescription(),
+            cvUrl: $profileEntity->getCvUrl(),
+            githubLink: $profileEntity->getGithubLink(),
+            linkedinLink: $profileEntity->getLinkedinLink(),
+            pictureUrl: $profileEntity->getPictureUrl()
         );
     }
 

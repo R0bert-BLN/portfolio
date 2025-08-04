@@ -6,6 +6,9 @@
 parameters:
     USER_EMAIL: '%env(APP_USER_EMAIL)%'
     USER_PASSWORD: '%env(APP_USER_PASSWORD)%'
+    SUPABASE_URL: '%env(SUPABASE_URL)%'
+    SUPABASE_API_KEY: '%env(SUPABASE_API_KEY)%'
+    SUPABASE_BUCKET: '%env(SUPABASE_BUCKET)%'
 
 services:
     # default configuration for services in *this* file
@@ -24,6 +27,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\SupabaseService:
+        arguments:
+            $supabaseUrl: '%SUPABASE_URL%'
+            $supabaseApiKey: '%SUPABASE_API_KEY%'
+            $supabaseBucket: '%SUPABASE_BUCKET%'
 
     App\EventListener\ExceptionListener:
         tags: [ kernel.event_listener ]
