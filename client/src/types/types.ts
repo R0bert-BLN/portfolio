@@ -13,3 +13,19 @@ export interface Profile {
     github_link: string
     linkedin_link: string
 }
+
+export interface Education {
+    id: number,
+    institution_name: string,
+    specialisation: string,
+    start_date: string,
+    end_date: string,
+    display_order: number
+}
+
+export interface CreateEducation {
+    institution_name: string,
+    specialisation: string,
+    start_date: Date | null,
+    end_date: Date | null,
+}

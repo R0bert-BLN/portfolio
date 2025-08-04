@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center">
         <h1 class="text-[#2475c8] text-[38px] font-bold">
             <slot name="title" />
         </h1>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { useAuthStore } from '@/stores/AuthStore.ts'
-import useLoader from '@/composables/useLoader.ts'
 
 interface Payload {
     username: string
@@ -10,7 +9,7 @@ interface Payload {
 
 const authStore = useAuthStore()
 const errorMessage = ref<string | null>(null)
-const loader = useLoader()
+const isLoading = ref<boolean>(false)
 const isFormValid = ref<boolean>(false)
 
 const form = reactive<Payload>({
@@ -30,7 +29,7 @@ const onSubmit = async () => {
         return
     }
 
-    loader.show()
+    isLoading.value = true
 
     try {
         await authStore.login(form)
@@ -41,7 +40,7 @@ const onSubmit = async () => {
             errorMessage.value = error.response.data.message
         }
     } finally {
-        loader.hide()
+        isLoading.value = false
     }
 }
 </script>
@@ -84,7 +83,7 @@ const onSubmit = async () => {
                 <v-btn
                     type="submit"
                     block
-                    :loading="loader.isLoading.value"
+                    :loading="isLoading"
                     variant="outlined"
                     color="primary"
                     size="large"

@@ -3,20 +3,20 @@ import { useProfileStore } from '@/stores/ProfileStore.ts'
 import {onMounted, ref, type Ref} from 'vue'
 import { storeToRefs } from 'pinia'
 import type { Profile } from '@/types/types.ts'
-import useLoader from '@/composables/useLoader.ts'
+import {useLoaderStore} from '@/stores/LoaderStore.ts'
 import EditProfileDialog from '@/components/admin/EditProfileDialog.vue'
 import PageHeader from "@/components/admin/PageHeader.vue";
+import {useMediaQuery} from "@vueuse/core";
+import {useNotificationStore} from "@/stores/NotificationStore.ts";
 
 const profileStore = useProfileStore()
-const loader = useLoader()
 const storeRefs = storeToRefs(profileStore)
+const notificationStore = useNotificationStore();
+const loader = useLoaderStore();
 
 const profile: Ref<Partial<Profile>> = storeRefs.profile
 const showDialog = ref<boolean>(false)
-const snackbarShow = ref<boolean>(false)
-const snackbarMessage = ref<string>('')
-const snackbarColor = ref<string>('')
-const snackbarTimeout = ref<number>(2000)
+const isLargeScreen = useMediaQuery('(min-width: 1000px)')
 
 const handleClose = () => {
     showDialog.value =false;
@@ -28,16 +28,10 @@ const handleUpdate = async (form: FormData) => {
 
     try {
         await profileStore.editProfile(form);
-
-        snackbarShow.value = true;
-        snackbarMessage.value = 'Profile updated successfully';
-        snackbarColor.value = 'success';
+        notificationStore.success('Profile updated successfully!');
     } catch (error) {
         console.error(error);
-
-        snackbarShow.value = true;
-        snackbarMessage.value = 'Failed to update profile';
-        snackbarColor.value = 'error';
+        notificationStore.error('Failed to update profile.');
     } finally {
         loader.hide();
     }
@@ -61,22 +55,14 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="mx-16 mt-16 pt-8 px-5 pb-16">
-        <v-snackbar class="mt-10" v-model="snackbarShow" :color="snackbarColor" :timeout="snackbarTimeout" location="top">
-            <span class="font-semibold text-[18px]">{{ snackbarMessage }}</span>
-
-            <template v-slot:actions>
-                <v-btn color="white" icon="mdi-close" variant="text" @click="snackbarShow = false"></v-btn>
-            </template>
-        </v-snackbar>
-
+    <div class="pt-8 pb-16" :class="isLargeScreen ? 'mx-16 px-5 mt-16' : 'px-2 mt-5'">
         <v-card flat color="transparent">
             <v-card-title>
                 <PageHeader>
                     <template v-slot:title>Profile</template>
 
                     <template v-slot:actions>
-                        <v-dialog v-model="showDialog" max-width="800" transition="scale-transition" persistent>
+                        <v-dialog v-model="showDialog" max-width="800" transition="scale-transition" persistent rounded="lg">
                             <template v-slot:activator="{ props: activatorProps }">
                                 <v-btn
                                     color="primary"
@@ -96,31 +82,16 @@ onMounted(async () => {
                 </PageHeader>
             </v-card-title>
 
-            <v-overlay
-                v-if="loader.isLoading.value"
-                class="flex justify-center items-center"
-                color="primary"
-                persistent
-                :model-value="loader.isLoading.value"
-            >
-                <v-progress-circular
-                    size="60"
-                    width="5"
-                    indeterminate
-                    color="primary"
-                ></v-progress-circular>
-            </v-overlay>
-
-            <v-card-text v-else class="mt-16 pt-10">
+            <v-card-text class="mt-16" :class="{'pt-10': isLargeScreen}">
                 <div class="flex flex-col gap-10">
-                    <div class="flex justify-center gap-10">
+                    <div class="flex justify-center gap-10" :class="{'flex-col items-center': !isLargeScreen}">
                         <v-avatar color="primary" size="150" variant="text" >
-                            <v-img v-if="profile.picture_url" :src="profile.picture_url"></v-img>
+                            <v-img v-if="profile.picture_url" :src="profile.picture_url" alt="Profile Picture"></v-img>
 
                             <v-icon v-else size="150" icon="mdi-account-circle"></v-icon>
                         </v-avatar>
 
-                        <div>
+                        <div :class="{'text-center': !isLargeScreen}">
                             <h2 class="text-[#2475c8] text-[30px] font-bold">
                                 {{ profile.first_name }} {{ profile.last_name }}
                             </h2>
@@ -128,7 +99,7 @@ onMounted(async () => {
                                 {{ profile.job_title }}
                             </h3>
 
-                            <div class="flex gap-5 mt-5">
+                            <div class="flex gap-5 mt-5" :class="{'justify-center': !isLargeScreen}">
                                 <v-chip
                                     link
                                     color="primary"
@@ -154,7 +125,7 @@ onMounted(async () => {
                     </div>
 
                     <div class="flex justify-center">
-                        <p class="w-4/6 text-[#ced0d1] text-[20px] mt-5 text-center">
+                        <p class="w-4/6 text-[#ced0d1] text-[20px] mt-5 text-center" :class="{'w-full': !isLargeScreen}">
                             {{ profile.description }}
                         </p>
                     </div>

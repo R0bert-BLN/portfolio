@@ -3,7 +3,7 @@ import { useMediaQuery } from '@vueuse/core'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/AuthStore.ts'
 
-const isLargeScreen = useMediaQuery('(min-width: 800px)')
+const isLargeScreen = useMediaQuery('(min-width: 1000px)')
 const showMenu = ref(false)
 const authStore = useAuthStore()
 

@@ -163,14 +163,15 @@ watch(() => props.profile, (newProfile) => {
         </v-card-text>
 
         <div class="flex justify-center">
-            <v-card-actions class="mt-5 pb-10">
-                <div class="flex gap-5">
+            <v-card-actions class="pb-10">
+                <div class="flex gap-10">
                     <v-btn
                         text="Cancel"
                         size="large"
                         color="error"
                         variant="outlined"
                         @click="handleCancel"
+                        rounded="lg"
                     ></v-btn>
 
                     <v-btn
@@ -179,6 +180,7 @@ watch(() => props.profile, (newProfile) => {
                         color="primary"
                         variant="outlined"
                         @click="handleUpdate"
+                        rounded="lg"
                     ></v-btn>
                 </div>
             </v-card-actions>
