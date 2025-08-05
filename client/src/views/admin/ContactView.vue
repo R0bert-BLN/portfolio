@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PageHeader from "@/components/admin/PageHeader.vue";
-import {ref} from "vue";
+import PageHeader from '@/components/admin/PageHeader.vue'
+import { ref } from 'vue'
 
 const showDialog = ref<boolean>(false)
 </script>
@@ -13,7 +13,12 @@ const showDialog = ref<boolean>(false)
                     <template v-slot:title>Contact</template>
 
                     <template v-slot:actions>
-                        <v-dialog v-model="showDialog" max-width="800" transition="scale-transition" persistent>
+                        <v-dialog
+                            v-model="showDialog"
+                            max-width="800"
+                            transition="scale-transition"
+                            persistent
+                        >
                             <template v-slot:activator="{ props: activatorProps }">
                                 <v-btn
                                     color="primary"
@@ -25,8 +30,7 @@ const showDialog = ref<boolean>(false)
                                 </v-btn>
                             </template>
 
-                            <template v-slot:default>
-                            </template>
+                            <template v-slot:default> </template>
                         </v-dialog>
                     </template>
                 </PageHeader>

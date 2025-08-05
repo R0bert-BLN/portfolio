@@ -1,39 +1,39 @@
 <script setup lang="ts">
 import { useProfileStore } from '@/stores/ProfileStore.ts'
-import {onMounted, ref, type Ref} from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { Profile } from '@/types/types.ts'
-import {useLoaderStore} from '@/stores/LoaderStore.ts'
-import EditProfileDialog from '@/components/admin/EditProfileDialog.vue'
-import PageHeader from "@/components/admin/PageHeader.vue";
-import {useMediaQuery} from "@vueuse/core";
-import {useNotificationStore} from "@/stores/NotificationStore.ts";
+import { useLoaderStore } from '@/stores/LoaderStore.ts'
+import ProfileEditDialog from '@/components/admin/ProfileEditDialog.vue'
+import PageHeader from '@/components/admin/PageHeader.vue'
+import { useMediaQuery } from '@vueuse/core'
+import { useNotificationStore } from '@/stores/NotificationStore.ts'
 
 const profileStore = useProfileStore()
 const storeRefs = storeToRefs(profileStore)
-const notificationStore = useNotificationStore();
-const loader = useLoaderStore();
+const notificationStore = useNotificationStore()
+const loader = useLoaderStore()
 
 const profile: Ref<Partial<Profile>> = storeRefs.profile
 const showDialog = ref<boolean>(false)
 const isLargeScreen = useMediaQuery('(min-width: 1000px)')
 
 const handleClose = () => {
-    showDialog.value =false;
+    showDialog.value = false
 }
 
 const handleUpdate = async (form: FormData) => {
-    handleClose();
-    loader.show();
+    handleClose()
+    loader.show()
 
     try {
-        await profileStore.editProfile(form);
-        notificationStore.success('Profile updated successfully!');
+        await profileStore.editProfile(form)
+        notificationStore.success('Profile updated successfully!')
     } catch (error) {
-        console.error(error);
-        notificationStore.error('Failed to update profile.');
+        console.error(error)
+        notificationStore.error('Failed to update profile.')
     } finally {
-        loader.hide();
+        loader.hide()
     }
 }
 
@@ -62,7 +62,13 @@ onMounted(async () => {
                     <template v-slot:title>Profile</template>
 
                     <template v-slot:actions>
-                        <v-dialog v-model="showDialog" max-width="800" transition="scale-transition" persistent rounded="lg">
+                        <v-dialog
+                            v-model="showDialog"
+                            max-width="800"
+                            transition="scale-transition"
+                            persistent
+                            rounded="lg"
+                        >
                             <template v-slot:activator="{ props: activatorProps }">
                                 <v-btn
                                     color="primary"
@@ -75,23 +81,34 @@ onMounted(async () => {
                             </template>
 
                             <template v-slot:default>
-                                <EditProfileDialog :profile="profile" @close="handleClose" @update="handleUpdate" />
+                                <ProfileEditDialog
+                                    :profile="profile"
+                                    @close="handleClose"
+                                    @update="handleUpdate"
+                                />
                             </template>
                         </v-dialog>
                     </template>
                 </PageHeader>
             </v-card-title>
 
-            <v-card-text class="mt-16" :class="{'pt-10': isLargeScreen}">
+            <v-card-text class="mt-16" :class="{ 'pt-10': isLargeScreen }">
                 <div class="flex flex-col gap-10">
-                    <div class="flex justify-center gap-10" :class="{'flex-col items-center': !isLargeScreen}">
-                        <v-avatar color="primary" size="150" variant="text" >
-                            <v-img v-if="profile.picture_url" :src="profile.picture_url" alt="Profile Picture"></v-img>
+                    <div
+                        class="flex justify-center gap-10"
+                        :class="{ 'flex-col items-center': !isLargeScreen }"
+                    >
+                        <v-avatar color="primary" size="150" variant="text">
+                            <v-img
+                                v-if="profile.picture_url"
+                                :src="profile.picture_url"
+                                alt="Profile Picture"
+                            ></v-img>
 
                             <v-icon v-else size="150" icon="mdi-account-circle"></v-icon>
                         </v-avatar>
 
-                        <div :class="{'text-center': !isLargeScreen}">
+                        <div :class="{ 'text-center': !isLargeScreen }">
                             <h2 class="text-[#2475c8] text-[30px] font-bold">
                                 {{ profile.first_name }} {{ profile.last_name }}
                             </h2>
@@ -99,7 +116,10 @@ onMounted(async () => {
                                 {{ profile.job_title }}
                             </h3>
 
-                            <div class="flex gap-5 mt-5" :class="{'justify-center': !isLargeScreen}">
+                            <div
+                                class="flex gap-5 mt-5"
+                                :class="{ 'justify-center': !isLargeScreen }"
+                            >
                                 <v-chip
                                     link
                                     color="primary"
@@ -125,13 +145,24 @@ onMounted(async () => {
                     </div>
 
                     <div class="flex justify-center">
-                        <p class="w-4/6 text-[#ced0d1] text-[20px] mt-5 text-center" :class="{'w-full': !isLargeScreen}">
+                        <p
+                            class="w-4/6 text-[#ced0d1] text-[20px] mt-5 text-center"
+                            :class="{ 'w-full': !isLargeScreen }"
+                        >
                             {{ profile.description }}
                         </p>
                     </div>
 
                     <div class="flex justify-center mt-10">
-                        <v-btn :href="profile.cv_url" target="_blank" color="primary" variant="outlined" size="large" rounded="lg">View Resume</v-btn>
+                        <v-btn
+                            :href="profile.cv_url"
+                            target="_blank"
+                            color="primary"
+                            variant="outlined"
+                            size="large"
+                            rounded="lg"
+                            >View Resume</v-btn
+                        >
                     </div>
                 </div>
             </v-card-text>

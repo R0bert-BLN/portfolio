@@ -12,9 +12,8 @@ class SupabaseService
         private HttpClientInterface $httpClient,
         private string $supabaseUrl,
         private string $supabaseApiKey,
-        private string $supabaseBucket
-    )
-    {
+        private string $supabaseBucket,
+    ) {
     }
 
     public function uploadFile(UploadedFile $file, string $path): string
@@ -26,14 +25,14 @@ class SupabaseService
         $response = $this->httpClient->request('POST', $url, [
             'headers' => [
                 'apiKey' => $this->supabaseApiKey,
-                'Authorization' => 'Bearer ' . $this->supabaseApiKey,
+                'Authorization' => 'Bearer '.$this->supabaseApiKey,
                 'Content-Type' => $file->getMimeType(),
             ],
-            'body' => file_get_contents($file->getPathname())
+            'body' => file_get_contents($file->getPathname()),
         ]);
 
         if ($response->getStatusCode() > 400) {
-            throw new SupabaseUploadException('Error uploading file to Supabase: ' . $response->getContent());
+            throw new SupabaseUploadException('Error uploading file to Supabase: '.$response->getContent());
         }
 
         return "{$this->supabaseUrl}/storage/v1/object/public/{$this->supabaseBucket}/{$path}";
@@ -46,12 +45,12 @@ class SupabaseService
         $response = $this->httpClient->request('DELETE', $url, [
             'headers' => [
                 'apiKey' => $this->supabaseApiKey,
-                'Authorization' => 'Bearer ' . $this->supabaseApiKey,
+                'Authorization' => 'Bearer '.$this->supabaseApiKey,
             ],
         ]);
 
         if ($response->getStatusCode() > 400) {
-            throw new SupabaseUploadException('Error deleting file from Supabase: ' . $response->getContent());
+            throw new SupabaseUploadException('Error deleting file from Supabase: '.$response->getContent());
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\EducationRequestDto;
 use App\Dto\EducationResponseDto;
+use App\Dto\UpdateOrderRequestDto;
 use App\Entity\Education;
 use App\Exception\ResourceAlreadyExistsException;
 use App\Exception\ResourceNotFoundException;
@@ -47,7 +48,7 @@ readonly class EducationService
 
     public function getAllEducations(): array
     {
-        $educations = $this->educationRepository->findAll();
+        $educations = $this->educationRepository->findBy([], ['displayOrder' => 'ASC']);
 
         return array_map(fn (Education $education) => $this->educationMapper->entityToDto($education), $educations);
     }
@@ -68,5 +69,21 @@ readonly class EducationService
         $this->entityManager->flush();
 
         return $this->educationMapper->entityToDto($education);
+    }
+
+    /**
+     * @param UpdateOrderRequestDto[] $requestDto
+     */
+    public function updateEducationOrder(array $requestDto): void
+    {
+        foreach ($requestDto as $orderDto) {
+            $education = $this->educationRepository->find($orderDto->getId());
+
+            if ($education) {
+                $education->setDisplayOrder($orderDto->getDisplayOrder());
+            }
+        }
+
+        $this->entityManager->flush();
     }
 }

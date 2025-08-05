@@ -1,14 +1,14 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import type {Education} from "@/types/types.ts";
-import axios from "@/plugins/axios.ts";
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import type { Education } from '@/types/types.ts'
+import axios from '@/plugins/axios.ts'
 
 export const useEducationStore = defineStore('EducationStore', () => {
-    const educations = ref<Array<Partial<Education>>>([]);
+    const educations = ref<Array<Partial<Education>>>([])
 
     const getAllEducations = async (): Promise<void> => {
         try {
-            const response = await axios.get<Array<Partial<Education>>>('/api/education');
+            const response = await axios.get<Array<Partial<Education>>>('/api/education')
             educations.value = response.data
         } catch (error) {
             throw error
@@ -35,7 +35,10 @@ export const useEducationStore = defineStore('EducationStore', () => {
 
     const updateEducation = async (payload: Record<string, string>, id: number): Promise<void> => {
         try {
-            const response = await axios.patch<Partial<Education>>(`/api/admin/education/${id}`, payload)
+            const response = await axios.patch<Partial<Education>>(
+                `/api/admin/education/${id}`,
+                payload,
+            )
             educations.value = educations.value.map((education) => {
                 if (education.id === id) {
                     return response.data
@@ -48,11 +51,21 @@ export const useEducationStore = defineStore('EducationStore', () => {
         }
     }
 
+    const updateDisplayOrder = async (payload: Array): Promise<void> => {
+        try {
+            await axios.patch('/api/admin/education/update-order', payload)
+            await getAllEducations()
+        } catch (error) {
+            throw error
+        }
+    }
+
     return {
         educations,
         getAllEducations,
         createEducation,
         deleteEducation,
-        updateEducation
+        updateEducation,
+        updateDisplayOrder,
     }
 })

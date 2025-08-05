@@ -1,87 +1,108 @@
 <script setup lang="ts">
-import type {CreateEducation} from "@/types/types.ts";
-import {computed, reactive, ref} from "vue";
-import {format} from "date-fns";
+import type { CreateEducation, Work, WorkRequest } from '@/types/types.ts'
+import { computed, reactive, ref, watch } from 'vue'
+import { format, parseISO } from 'date-fns'
 
-interface Emits {
-    (e: 'close'): void,
-    (e: 'create', data: Record<string, string>): void
+interface Props {
+    work: Work
 }
 
+interface Emits {
+    (e: 'close'): void
+    (e: 'update', payload: WorkRequest, id: number): void
+}
+
+const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
-const education = reactive<Partial<CreateEducation>>({})
+
+const work = reactive<Partial<WorkRequest>>({})
 const isFormValid = ref<boolean>(false)
+const startDate = ref<Date | null>(null)
+const endDate = ref<Date | null>(null)
 
-const institutionNameRules = [
-    (value: string) => !!value || 'Institution name is required',
-    (value: string) => value.length >= 3 || 'Institution name must be at least 3 characters long',
-]
-
-const specialisationRules = [
-    (value: string) => !!value || 'Specialisation is required',
-    (value: string) => value.length >= 3 || 'Specialisation must be at least 3 characters long',
+const stringRules = [
+    (value: string) => !!value || 'This field is required',
+    (value: string) => value.length >= 3 || 'This field must be at least 3 characters long',
 ]
 
 const startDateRules = computed(() => [
     (value: Date) => !!value || 'Start date is required',
     (value: Date) => value < new Date() || 'Start date must be in the past',
-    (value: Date) => !education.end_date || value <= new Date(education.end_date) || 'Start date must be before end date',
+    (value: Date) =>
+        !endDate.value || value <= endDate.value || 'Start date must be before end date',
 ])
 
 const endDateRules = computed(() => [
-    (value: Date) => !value || value >= new Date(education.start_date) || 'End date must be after start date',
+    (value: Date) =>
+        !value ||
+        !startDate.value ||
+        value >= startDate.value ||
+        'End date must be after start date',
 ])
 
 const handleCancel = () => {
-    emits('close');
+    emits('close')
 }
 
-const handleCreate = () => {
+const handleUpdate = () => {
     if (!isFormValid.value) {
-        return;
+        return
     }
 
-    const payload = {
-        institution_name: education.institution_name,
-        specialisation: education.specialisation,
-        start_date: format(education.start_date, 'yyyy-MM-dd'),
-        end_date: education.end_date ? format(education.end_date, 'yyyy-MM-dd') : null,
+    const payload: WorkRequest = {
+        job_title: work.job_title,
+        job_description: work.job_description,
+        company: work.company,
+        start_date: format(startDate.value, 'yyyy-MM-dd'),
+        end_date: endDate.value ? format(endDate.value, 'yyyy-MM-dd') : null,
     }
 
-    emits('create', payload);
+    emits('update', payload)
 }
+
+watch(
+    () => props.work,
+    () => {
+        work.job_title = props.work.job_title
+        work.job_description = props.work.job_description
+        work.company = props.work.company
+        startDate.value = parseISO(props.work.start_date)
+        endDate.value = props.work.end_date ? parseISO(props.work.end_date) : null
+    },
+    { deep: true, immediate: true },
+)
 </script>
 
 <template>
     <v-card rounded="lg">
         <v-card-title class="text-center mt-5 mb-10">
-            <span class="text-[#2475c8] text-[30px] font-bold">Create Education</span>
+            <span class="text-[#2475c8] text-[30px] font-bold">Update Work</span>
         </v-card-title>
 
         <v-card-text>
-            <v-form v-model="isFormValid" @submit.prevent="handleCreate">
+            <v-form v-model="isFormValid" @submit.prevent="handleUpdate">
                 <v-text-field
-                    v-model="education.institution_name"
-                    label="Institution Name"
+                    v-model="work.job_title"
+                    label="Job Title"
                     persistent-placeholder
                     variant="underlined"
                     color="primary"
                     class="login-input mt-5"
-                    :rules="institutionNameRules"
+                    :rules="stringRules"
                 />
 
                 <v-text-field
-                    v-model="education.specialisation"
-                    label="Specialisation"
+                    v-model="work.company"
+                    label="Company Name"
                     persistent-placeholder
                     variant="underlined"
                     color="primary"
                     class="login-input mt-5"
-                    :rules="specialisationRules"
+                    :rules="stringRules"
                 />
 
                 <v-date-input
-                    v-model="education.start_date"
+                    v-model="startDate"
                     label="Start Date"
                     persistent-placeholder
                     placeholder=""
@@ -94,7 +115,7 @@ const handleCreate = () => {
                 />
 
                 <v-date-input
-                    v-model="education.end_date"
+                    v-model="endDate"
                     label="End Date"
                     persistent-placeholder
                     placeholder=""
@@ -104,6 +125,16 @@ const handleCreate = () => {
                     icon-color="primary"
                     :rules="endDateRules"
                     clearable
+                />
+
+                <v-textarea
+                    v-model="work.job_description"
+                    label="Job Description"
+                    persistent-placeholder
+                    variant="underlined"
+                    color="primary"
+                    class="login-input mt-5"
+                    :rules="stringRules"
                 />
 
                 <div class="flex justify-center">
@@ -120,7 +151,7 @@ const handleCreate = () => {
 
                             <v-btn
                                 type="submit"
-                                text="Create"
+                                text="Update"
                                 size="large"
                                 color="primary"
                                 variant="outlined"

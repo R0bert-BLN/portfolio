@@ -1,18 +1,18 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 export const useNotificationStore = defineStore('NotificationStore', () => {
-    const _show = ref<boolean>(false);
-    const _message = ref<string>('');
-    const _color = ref<string>('');
-    const _title = ref<string>('');
-    const _timeout = ref<number>(3000);
+    const _show = ref<boolean>(false)
+    const _message = ref<string>('')
+    const _color = ref<string>('')
+    const _title = ref<string>('')
+    const _timeout = ref<number>(3000)
 
     const showNotification = (message: string, color: string, timeout: number, title: string) => {
-        _show.value = true;
-        _message.value = message;
-        _color.value = color;
-        _timeout.value = timeout;
+        _show.value = true
+        _message.value = message
+        _color.value = color
+        _timeout.value = timeout
         _title.value = title
     }
 
@@ -46,6 +46,6 @@ export const useNotificationStore = defineStore('NotificationStore', () => {
         error,
         warning,
         info,
-        hideNotification
+        hideNotification,
     }
 })

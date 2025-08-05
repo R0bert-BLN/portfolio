@@ -15,17 +15,35 @@ export interface Profile {
 }
 
 export interface Education {
-    id: number,
-    institution_name: string,
-    specialisation: string,
-    start_date: string,
-    end_date: string,
+    id: number
+    institution_name: string
+    specialisation: string
+    start_date: string
+    end_date: string
     display_order: number
 }
 
 export interface CreateEducation {
-    institution_name: string,
-    specialisation: string,
-    start_date: Date | null,
-    end_date: Date | null,
+    institution_name: string
+    specialisation: string
+    start_date: Date | null
+    end_date: Date | null
+}
+
+export interface Work {
+    id: number
+    job_title: string
+    job_description: string
+    company: string
+    start_date: string
+    end_date: string
+    display_order: number
+}
+
+export interface WorkRequest {
+    job_title: string
+    job_description: string
+    company: string
+    start_date: string
+    end_date: string | null
 }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\UpdateOrderRequestDto;
 use App\Dto\WorkExperienceRequestDto;
 use App\Dto\WorkExperienceResponseDto;
 use App\Entity\WorkExperience;
@@ -50,7 +51,7 @@ readonly class WorkExperienceService
 
     public function getAllWorkExperiences(): array
     {
-        $workExperiences = $this->workExperienceRepository->findAll();
+        $workExperiences = $this->workExperienceRepository->findBy([], ['displayOrder' => 'ASC']);
 
         return array_map(fn (WorkExperience $workExperience) => $this->workExperienceMapper->entityToDto($workExperience), $workExperiences);
     }
@@ -64,5 +65,21 @@ readonly class WorkExperienceService
         }
 
         return $this->workExperienceMapper->entityToDto($workExperience);
+    }
+
+    /**
+     * @param UpdateOrderRequestDto[] $requestDto
+     */
+    public function updateEducationOrder(array $requestDto): void
+    {
+        foreach ($requestDto as $orderDto) {
+            $workExperience = $this->workExperienceRepository->find($orderDto->getId());
+
+            if ($workExperience) {
+                $workExperience->setDisplayOrder($orderDto->getDisplayOrder());
+            }
+        }
+
+        $this->entityManager->flush();
     }
 }

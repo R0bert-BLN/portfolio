@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { Profile } from "@/types/types.ts";
-import {reactive, ref, watch} from "vue";
+import type { Profile } from '@/types/types.ts'
+import { reactive, ref, watch } from 'vue'
 
 interface Props {
     profile: Profile
 }
 
 interface Emits {
-    (e: 'close'): void,
+    (e: 'close'): void
     (e: 'update', data: FormData): void
 }
 
@@ -16,54 +16,58 @@ const emits = defineEmits<Emits>()
 
 const localProfile = reactive<Partial<Profile>>({})
 
-const resumeFile = ref<File | null>(null);
-const pictureFile = ref<File | null>(null);
+const resumeFile = ref<File | null>(null)
+const pictureFile = ref<File | null>(null)
 
 const handleCancel = () => {
-    emits('close');
+    emits('close')
 }
 
 const handleUpdate = () => {
-   const formData = new FormData();
+    const formData = new FormData()
 
-   if (resumeFile.value) {
-       formData.append('cv', resumeFile.value);
-   }
+    if (resumeFile.value) {
+        formData.append('cv', resumeFile.value)
+    }
 
-   if (pictureFile.value) {
-       formData.append('picture', pictureFile.value);
-   }
+    if (pictureFile.value) {
+        formData.append('picture', pictureFile.value)
+    }
 
-   if (localProfile.description) {
-       formData.append('description', localProfile.description);
-   }
+    if (localProfile.description) {
+        formData.append('description', localProfile.description)
+    }
 
-   if (localProfile.first_name) {
-       formData.append('first_name', localProfile.first_name);
-   }
+    if (localProfile.first_name) {
+        formData.append('first_name', localProfile.first_name)
+    }
 
-   if (localProfile.last_name) {
-       formData.append('last_name', localProfile.last_name);
-   }
+    if (localProfile.last_name) {
+        formData.append('last_name', localProfile.last_name)
+    }
 
-   if (localProfile.job_title) {
-       formData.append('job_title', localProfile.job_title);
-   }
+    if (localProfile.job_title) {
+        formData.append('job_title', localProfile.job_title)
+    }
 
-   if (localProfile.github_link) {
-       formData.append('github_link', localProfile.github_link);
-   }
+    if (localProfile.github_link) {
+        formData.append('github_link', localProfile.github_link)
+    }
 
-   if (localProfile.linkedin_link) {
-       formData.append('linkedin_link', localProfile.linkedin_link);
-   }
+    if (localProfile.linkedin_link) {
+        formData.append('linkedin_link', localProfile.linkedin_link)
+    }
 
-   emits('update', formData);
+    emits('update', formData)
 }
 
-watch(() => props.profile, (newProfile) => {
-    Object.assign(localProfile, newProfile);
-}, {immediate: true, deep: true})
+watch(
+    () => props.profile,
+    (newProfile) => {
+        Object.assign(localProfile, newProfile)
+    },
+    { immediate: true, deep: true },
+)
 </script>
 
 <template>

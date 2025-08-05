@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {useLoaderStore} from "@/stores/LoaderStore.ts";
+import { useLoaderStore } from '@/stores/LoaderStore.ts'
 
-const loaderStore = useLoaderStore();
+const loaderStore = useLoaderStore()
 </script>
 
 <template>
@@ -21,6 +21,4 @@ const loaderStore = useLoaderStore();
     </v-overlay>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

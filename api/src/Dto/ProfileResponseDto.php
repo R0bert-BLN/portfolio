@@ -2,7 +2,6 @@
 
 namespace App\Dto;
 
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
 readonly class ProfileResponseDto
@@ -24,13 +23,13 @@ readonly class ProfileResponseDto
         private string $description,
 
         #[SerializedName('cv_url')]
-        private ?string  $cvUrl,
+        private ?string $cvUrl,
 
         #[SerializedName('github_link')]
-        private string  $githubLink,
+        private string $githubLink,
 
         #[SerializedName('linkedin_link')]
-        private string  $linkedinLink,
+        private string $linkedinLink,
 
         #[SerializedName('picture_url')]
         private ?string $pictureUrl,

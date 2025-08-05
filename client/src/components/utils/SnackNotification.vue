@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {useNotificationStore} from "@/stores/NotificationStore.ts";
-import {useMediaQuery} from "@vueuse/core";
-import {computed} from "vue";
+import { useNotificationStore } from '@/stores/NotificationStore.ts'
+import { useMediaQuery } from '@vueuse/core'
+import { computed } from 'vue'
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 const isLargeScreen = useMediaQuery('(min-width: 1000px)')
 
 const margins = computed(() => {
@@ -16,18 +16,28 @@ const notificationLocation = computed(() => {
 </script>
 
 <template>
-    <v-snackbar :class="margins" multi-line v-model="notificationStore.show" :color="notificationStore.color" :timeout="notificationStore.timeout" :location="notificationLocation">
+    <v-snackbar
+        :class="margins"
+        multi-line
+        v-model="notificationStore.show"
+        :color="notificationStore.color"
+        :timeout="notificationStore.timeout"
+        :location="notificationLocation"
+    >
         <div class="flex flex-col gap-1">
-            <span class="font-semibold text-[24px]">{{ notificationStore.title }}</span>
-            <span class="text-[20px]">{{ notificationStore.message }}</span>
+            <span class="font-semibold text-[22px]">{{ notificationStore.title }}</span>
+            <span class="text-[18px]">{{ notificationStore.message }}</span>
         </div>
 
         <template v-slot:actions>
-            <v-btn color="white" icon="mdi-close" variant="text" @click="notificationStore.hideNotification()"></v-btn>
+            <v-btn
+                color="white"
+                icon="mdi-close"
+                variant="text"
+                @click="notificationStore.hideNotification()"
+            ></v-btn>
         </template>
     </v-snackbar>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

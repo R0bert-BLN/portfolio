@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <v-card rounded="xl">
@@ -14,7 +12,10 @@
 
             <v-card-text>
                 <div class="flex justify-center my-4">
-                    <span class="text-[18px] text-center">Are you sure you want to delete this item? This action cannot be undone.</span>
+                    <span class="text-[18px] text-center"
+                        >Are you sure you want to delete this item? This action cannot be
+                        undone.</span
+                    >
                 </div>
             </v-card-text>
 
@@ -41,6 +42,4 @@
     </v-card>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -93,12 +93,41 @@ const handleLogout = async () => {
                 </template>
 
                 <v-list>
-                    <v-list-item color="primary" to="/admin/profile" title="Profile" />
-                    <v-list-item color="primary" to="/admin/education" title="Education" />
-                    <v-list-item color="primary" to="/admin/work" title="Work" />
-                    <v-list-item color="primary" to="/admin/skill" title="Skills" />
-                    <v-list-item color="primary" to="/admin/project" title="Projects" />
-                    <v-list-item color="primary" to="/admin/contact" title="Contact" />
+                    <v-list-item value="profile" to="/admin/profile" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Profile</span>
+                        </template>
+                    </v-list-item>
+
+                    <v-list-item value="education" to="/admin/education" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Education</span>
+                        </template>
+                    </v-list-item>
+
+                    <v-list-item value="work" to="/admin/work" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Work</span>
+                        </template>
+                    </v-list-item>
+
+                    <v-list-item value="skill" to="/admin/skill" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Skills</span>
+                        </template>
+                    </v-list-item>
+
+                    <v-list-item value="project" to="/admin/project" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Projects</span>
+                        </template>
+                    </v-list-item>
+
+                    <v-list-item value="contact" to="/admin/contact" color="primary">
+                        <template v-slot:title>
+                            <span class="d-block text-center font-semibold">Contact</span>
+                        </template>
+                    </v-list-item>
                 </v-list>
             </v-menu>
 

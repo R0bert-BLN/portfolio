@@ -1,43 +1,67 @@
 <script setup lang="ts">
-import type { Education } from '@/types/types.ts'
+import type { Work, WorkRequest } from '@/types/types.ts'
 import { computed, reactive, ref, watch } from 'vue'
 import DeleteConfirmation from '@/components/admin/DeleteConfirmation.vue'
-import EducationUpdateDialog from '@/components/admin/EducationUpdateDialog.vue'
 import { format, parseISO } from 'date-fns'
+import WorkUpdateDialog from '@/components/admin/WorkUpdateDialog.vue'
 import { useMediaQuery } from '@vueuse/core'
 
 interface Props {
-    education: Partial<Education>
+    work: Partial<Work>
     index: number
 }
 
 interface Emits {
     (e: 'delete', id: number): void
-    (e: 'update', payload: Record<string, string>, id: number): void
+    (e: 'update', payload: WorkRequest, id: number): void
 }
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
 
-const localEducation = reactive<Partial<Education>>({})
+const work = reactive<Partial<Work>>({})
 const showDialog = ref<boolean>(false)
 const showDeleteDialog = ref<boolean>(false)
+const isExpanded = ref<boolean>(false)
+
 const isLargeScreen = useMediaQuery('(min-width: 1000px)')
 const changeWidth = useMediaQuery('(min-width: 1350px)')
 const isSmallScreen = useMediaQuery('(max-width: 600px)')
 
+const maxLength = computed(() => {
+    return isLargeScreen.value ? 100 : 50
+})
+
+const toggleExpand = () => {
+    isExpanded.value = !isExpanded.value
+}
+
+const needToExpand = computed(() => {
+    return work.job_description.length > maxLength.value
+})
+
+const visibleText = computed(() => {
+    return needToExpand.value
+        ? work.job_description.substring(0, maxLength.value)
+        : work.job_description
+})
+
+const hiddenText = computed(() => {
+    return needToExpand.value ? work.job_description.substring(maxLength.value) : ''
+})
+
 const period = computed(() => {
-    if (!localEducation.start_date) {
+    if (!work.start_date) {
         return ''
     }
 
-    const startDate = format(parseISO(localEducation.start_date), 'MMMM yyyy')
+    const startDate = format(parseISO(work.start_date), 'MMMM yyyy')
 
-    if (!localEducation.end_date) {
+    if (!work.end_date) {
         return `${startDate} - Present`
     }
 
-    const endDate = format(parseISO(localEducation.end_date), 'MMMM yyyy')
+    const endDate = format(parseISO(work.end_date), 'MMMM yyyy')
 
     return `${startDate} - ${endDate}`
 })
@@ -49,18 +73,18 @@ const handleClose = () => {
 
 const handleDelete = () => {
     handleClose()
-    emits('delete', props.education.id)
+    emits('delete', work.id)
 }
 
-const handleUpdate = (payload: Record<string, string>) => {
+const handleUpdate = (payload: WorkRequest) => {
     handleClose()
-    emits('update', payload, localEducation.id)
+    emits('update', payload, work.id)
 }
 
 watch(
-    () => props.education,
-    (newEducation) => {
-        Object.assign(localEducation, newEducation)
+    () => props.work,
+    (newWork) => {
+        Object.assign(work, newWork)
     },
     { immediate: true, deep: true },
 )
@@ -88,17 +112,34 @@ watch(
                         <v-card-title>
                             <div>
                                 <span class="font-semibold text-[24px] text-[#ced0d1]">{{
-                                    education.institution_name
+                                    work.job_title
                                 }}</span>
                             </div>
                         </v-card-title>
 
                         <v-card-text>
-                            <div class="flex flex-col gap-2 mt-4">
+                            <div class="flex flex-col mt-1" :class="{ 'mr-8': !isSmallScreen }">
+                                <span class="text-[#ced0d1] text-[18px]">{{ work.company }}</span>
                                 <span class="text-[#ced0d1] text-[18px]">{{ period }}</span>
-                                <span class="text-[#ced0d1] text-[18px]">{{
-                                    education.specialisation
-                                }}</span>
+
+                                <p class="text-[#ced0d1] text-[16px] mt-4">
+                                    <span
+                                        >{{ visibleText
+                                        }}{{ needToExpand && !isExpanded ? '...' : ' ' }}</span
+                                    >
+                                    <span v-show="isExpanded">{{ hiddenText }}</span>
+
+                                    <v-btn
+                                        v-if="needToExpand"
+                                        size="small"
+                                        color="primary"
+                                        variant="plain"
+                                        @click="toggleExpand"
+                                        :ripple="false"
+                                    >
+                                        {{ isExpanded ? 'Show less' : 'Show more' }}
+                                    </v-btn>
+                                </p>
                             </div>
                         </v-card-text>
                     </div>
@@ -127,8 +168,8 @@ watch(
                                 </template>
 
                                 <template #default>
-                                    <EducationUpdateDialog
-                                        :education="localEducation"
+                                    <WorkUpdateDialog
+                                        :work="work"
                                         @close="handleClose"
                                         @update="handleUpdate"
                                     />

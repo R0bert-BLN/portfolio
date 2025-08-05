@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\UpdateOrderRequestDto;
 use App\Dto\WorkExperienceRequestDto;
 use App\Service\WorkExperienceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +13,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class WorkExperienceController extends AbstractController
 {
+    #[Route('/api/admin/work-experience/update-order', name: 'app_work_experience_update_education_order', methods: ['PATCH'])]
+    public function updateWorkExperienceOrder(
+        #[MapRequestPayload(type: UpdateOrderRequestDto::class)] array $requestDto,
+        WorkExperienceService $workExperienceService): JsonResponse
+    {
+        $workExperienceService->updateEducationOrder($requestDto);
+
+        return $this->json(null, Response::HTTP_OK);
+    }
+
     #[Route('/api/work-experience/{id}', name: 'app_get_work_experience', methods: ['GET'])]
     public function getWorkExperience(int $id, WorkExperienceService $workExperienceService): JsonResponse
     {

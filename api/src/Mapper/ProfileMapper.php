@@ -8,9 +8,7 @@ use App\Entity\Profile;
 use App\Exception\ResourceNotFoundException;
 use App\Exception\SupabaseUploadException;
 use App\Repository\ProfileRepository;
-use App\Service\DropboxService;
 use App\Service\SupabaseService;
-use Kunnu\Dropbox\Exceptions\DropboxClientException;
 
 readonly class ProfileMapper
 {
@@ -44,9 +42,9 @@ readonly class ProfileMapper
             $path = "documents/{$profileEntity->getFirstName()} {$profileEntity->getLastName()}.{$profileRequestDto->getCv()->guessExtension()}";
 
             try {
-                $supabasePath =$this->supabaseService->uploadFile($profileRequestDto->getCv(), $path);
+                $supabasePath = $this->supabaseService->uploadFile($profileRequestDto->getCv(), $path);
             } catch (SupabaseUploadException $e) {
-                throw new SupabaseUploadException('Error uploading file to Supabase: ' . $e->getMessage());
+                throw new SupabaseUploadException('Error uploading file to Supabase: '.$e->getMessage());
             }
 
             $profileEntity->setCvUrl($supabasePath);
@@ -58,7 +56,7 @@ readonly class ProfileMapper
             try {
                 $supabasePath = $this->supabaseService->uploadFile($profileRequestDto->getPicture(), $path);
             } catch (SupabaseUploadException $e) {
-                throw new SupabaseUploadException('Error uploading file to Supabase: ' . $e->getMessage());
+                throw new SupabaseUploadException('Error uploading file to Supabase: '.$e->getMessage());
             }
 
             $profileEntity->setPictureUrl($supabasePath);
